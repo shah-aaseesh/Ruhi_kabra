@@ -1,73 +1,145 @@
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
+import { MandalaPattern, FloatingDecoElement, PaisleyPattern, ScatteredDots, DiagonalLine, DottedCircle, RangoliCorner, DistortedText, ParallaxLayer } from "@/components/DecorativeElements";
 import { ExternalLink } from "lucide-react";
 
 const articles = [
-  { title: "A Third Space", excerpt: "On the liminal spaces between identities, cultures, and art forms." },
-  { title: "Doorway", excerpt: "What stands at the threshold of memory and forgetting." },
-  { title: "My Name", excerpt: "An exploration of names, naming, and the weight they carry." },
+  { title: "A Third Space", excerpt: "On the liminal spaces between identities, cultures, and art forms — where creation happens in the in-between." },
+  { title: "Doorway", excerpt: "What stands at the threshold of memory and forgetting — a meditation on passage and permanence." },
+  { title: "My Name", excerpt: "An exploration of names, naming, and the weight they carry across languages and lives." },
 ];
 
 const Writing = () => {
   return (
     <PageTransition>
-      <section className="pt-24 pb-12 px-6 md:px-12 lg:px-24">
-        <motion.h1
-          className="font-cinzel text-5xl md:text-7xl font-bold mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Writing
-        </motion.h1>
-        <motion.div
-          className="flex items-center gap-2 mt-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <a
-            href="https://substack.com/@ruhigh"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-grotesk text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5 story-link"
+      <section className="relative pt-24 pb-12 px-6 md:px-12 lg:px-24 overflow-hidden">
+        <FloatingDecoElement x={80} y={10} delay={0}>
+          <PaisleyPattern className="text-primary rotate-45" opacity={0.04} />
+        </FloatingDecoElement>
+        <FloatingDecoElement x={5} y={40} delay={2}>
+          <MandalaPattern size={200} className="text-accent animate-slow-spin" opacity={0.02} />
+        </FloatingDecoElement>
+        <RangoliCorner className="absolute top-0 right-0 text-primary" flip />
+        <ScatteredDots count={20} />
+        <DiagonalLine className="top-32 right-[20%]" />
+
+        <div className="absolute top-[40%] left-[10%] w-[400px] h-[400px] rounded-full bg-accent blur-[200px] animate-pulse-glow opacity-15" />
+
+        <motion.div className="relative z-10">
+          <motion.h1
+            className="font-cinzel text-6xl md:text-8xl font-black chromatic-text"
+            initial={{ opacity: 0, y: 30, rotate: -2 }}
+            animate={{ opacity: 1, y: 0, rotate: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            Substack <ExternalLink size={12} />
-          </a>
+            <DistortedText>Writing</DistortedText>
+          </motion.h1>
+
+          <motion.div
+            className="flex items-center gap-4 mt-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            <a
+              href="https://substack.com/@ruhigh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-grotesk text-sm text-muted-foreground/60 hover:text-primary transition-colors flex items-center gap-2 story-link"
+            >
+              Substack <ExternalLink size={12} />
+            </a>
+            <div className="w-8 h-px bg-border/20" />
+            <div className="w-1.5 h-1.5 rotate-45 border border-primary/20" />
+          </motion.div>
+
+          {/* Marquee */}
+          <motion.div
+            className="overflow-hidden mt-8 border-y border-border/10 py-2 max-w-lg"
+            initial={{ scaleX: 0, originX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            <div className="animate-marquee whitespace-nowrap">
+              <span className="font-cormorant text-xs text-muted-foreground/20 tracking-[0.3em] italic">
+                {"PROSE • POETRY • ESSAYS • THOUGHTS • FRAGMENTS • ".repeat(4)}
+              </span>
+            </div>
+          </motion.div>
         </motion.div>
       </section>
 
-      {/* Articles */}
-      <section className="px-6 md:px-12 lg:px-24 pb-32">
-        <div className="max-w-2xl space-y-16">
+      {/* Articles - asymmetric editorial */}
+      <section className="px-6 md:px-12 lg:px-24 pb-32 relative overflow-hidden">
+        <ParallaxLayer speed={0.2} className="absolute inset-0 pointer-events-none">
+          <PaisleyPattern className="absolute right-[5%] top-[30%] text-secondary -rotate-12" opacity={0.025} />
+        </ParallaxLayer>
+
+        {/* Paper texture bg */}
+        <div className="fixed top-0 right-0 w-1/3 h-full bg-gradient-to-l from-card/15 to-transparent pointer-events-none z-0" />
+
+        <div className="max-w-3xl space-y-20 md:space-y-28 relative z-10">
           {articles.map((article, i) => (
             <motion.article
               key={article.title}
-              className="group breathe"
-              style={{ animationDelay: `${i * 0.5}s` }}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.15, duration: 0.6 }}
+              className="group breathe relative"
+              style={{
+                animationDelay: `${i * 0.7}s`,
+                marginLeft: `${[0, 12, 5][i]}%`,
+              }}
+              initial={{ opacity: 0, y: 50, rotate: [-1, 0.5, -0.5][i] }}
+              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.7 }}
               viewport={{ once: true }}
             >
-              <div className="relative pl-6 border-l border-border/30 group-hover:border-primary/40 transition-colors duration-500">
-                <span className="font-grotesk text-[10px] text-muted-foreground/40 tracking-[0.3em] uppercase block mb-2">
-                  {String(i + 1).padStart(2, "0")}
+              {/* Background number */}
+              <span className="absolute -top-6 -left-4 font-cinzel text-7xl md:text-9xl font-black text-foreground/[0.02] select-none pointer-events-none">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+
+              <div className="relative pl-8 border-l-2 border-border/20 group-hover:border-primary/40 transition-colors duration-700">
+                {/* Decorative dot on border */}
+                <div className="absolute left-[-5px] top-0 w-2 h-2 rounded-full bg-border/30 group-hover:bg-primary/60 transition-colors duration-500" />
+
+                <span className="font-grotesk text-[10px] text-muted-foreground/30 tracking-[0.4em] uppercase block mb-3">
+                  {["essay", "prose", "personal"][i]}
                 </span>
-                <h2 className="font-cinzel text-2xl md:text-3xl font-semibold group-hover:text-primary transition-colors duration-500 mb-3">
+
+                <h2 className="font-cinzel text-3xl md:text-4xl font-bold group-hover:text-primary transition-colors duration-500 chromatic-text mb-4">
                   {article.title}
                 </h2>
-                <p className="font-cormorant text-base md:text-lg text-muted-foreground italic leading-relaxed">
+
+                <p className="font-cormorant text-base md:text-lg text-muted-foreground/60 italic leading-relaxed max-w-lg">
                   {article.excerpt}
                 </p>
-                <div className="mt-4 w-0 group-hover:w-16 h-px bg-primary/40 transition-all duration-700" />
+
+                <div className="mt-6 flex items-center gap-3">
+                  <div className="w-0 group-hover:w-20 h-px bg-primary/30 transition-all duration-700" />
+                  <div className="w-1 h-1 rounded-full bg-primary/0 group-hover:bg-primary/40 transition-all duration-500" />
+                </div>
+              </div>
+
+              {/* Side decoration */}
+              <div className="absolute -right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                <DottedCircle size={40} className="text-primary" />
               </div>
             </motion.article>
           ))}
         </div>
 
-        {/* Paper texture background element */}
-        <div className="fixed top-0 right-0 w-1/3 h-full bg-gradient-to-l from-card/20 to-transparent pointer-events-none z-0" />
+        {/* Bottom ornament */}
+        <motion.div
+          className="flex items-center justify-center gap-3 mt-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="w-16 h-px bg-gradient-to-r from-transparent to-border/20" />
+          <div className="w-2 h-2 rotate-45 border border-border/15" />
+          <span className="font-grotesk text-[9px] tracking-[0.4em] text-muted-foreground/15 uppercase">words</span>
+          <div className="w-2 h-2 rotate-45 border border-border/15" />
+          <div className="w-16 h-px bg-gradient-to-l from-transparent to-border/20" />
+        </motion.div>
       </section>
     </PageTransition>
   );

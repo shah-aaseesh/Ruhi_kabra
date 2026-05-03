@@ -48,8 +48,12 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Space Grotesk', sans-serif;
-    cursor: none;
     overflow-x: hidden;
+  }
+  @media (min-width: 768px) {
+    body {
+      cursor: none;
+    }
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cinzel', serif;
@@ -256,4 +260,17 @@
 .warp-slight:hover {
   transform: perspective(800px) rotateY(0deg) rotateX(0deg);
   transition: transform 0.6s ease;
+}
+
+/* Mobile text wave animation */
+@keyframes wave-text {
+  0%, 100% { transform: translateY(0) scale(1); color: inherit; }
+  10% { transform: translateY(-8px) scale(1.05); color: hsl(var(--primary)); }
+  20% { transform: translateY(0) scale(1); color: inherit; }
+}
+
+@media (max-width: 768px) {
+  .mobile-wave {
+    animation: wave-text 4s ease-in-out infinite;
+  }
 }

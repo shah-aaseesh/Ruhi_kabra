@@ -10,8 +10,8 @@ const Footer = () => {
         <div className="font-grotesk text-xs text-muted-foreground/60 space-y-2 tracking-wide">
           <p>Pune, Maharashtra, IN</p>
           <p>+91 7757069920</p>
-          <a href="mailto:ruhi.kabra_ug25@ashoka.edu.in" className="hover:text-primary transition-colors block">
-            ruhi.kabra_ug25@ashoka.edu.in
+          <a href="mailto:ruhi@smriti.com" className="hover:text-primary transition-colors block">
+            ruhi@smriti.com
           </a>
         </div>
 

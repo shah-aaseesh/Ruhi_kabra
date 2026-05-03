@@ -102,9 +102,12 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
                 transition={{ delay: 0.3 + i * 0.06, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -10, scale: 1.1, transition: { duration: 0.2 } }}
+                whileTap={{ y: -10, scale: 1.1, transition: { duration: 0.2 } }}
                 style={{ color: letter === " " ? "transparent" : undefined }}
               >
-                {letter === " " ? "\u00A0" : letter}
+                <span className={`inline-block ${letter !== " " ? "mobile-wave" : ""}`} style={{ animationDelay: `${i * 0.1 + 2}s` }}>
+                  {letter === " " ? "\u00A0" : letter}
+                </span>
               </motion.span>
             ))}
           </h1>
@@ -228,7 +231,7 @@ const Index = () => {
 
           {/* Portrait Placeholder 2 (About section tape) */}
           <motion.div
-            className="relative w-56 h-72 lg:w-64 lg:h-80 -ml-10 mt-16 -rotate-6 bg-card/40 backdrop-blur-md border border-border/30 p-2 pb-10 shadow-[0_0_30px_rgba(255,215,0,0.02)] z-20 hidden md:block warp-slight group"
+            className="relative w-56 h-72 lg:w-64 lg:h-80 mx-auto md:-ml-10 mt-8 md:mt-16 -rotate-3 md:-rotate-6 bg-card/40 backdrop-blur-md border border-border/30 p-2 pb-10 shadow-[0_0_30px_rgba(255,215,0,0.02)] z-20 warp-slight group block"
             initial={{ opacity: 0, x: -30, rotate: -15 }}
             whileInView={{ opacity: 1, x: 0, rotate: -6 }}
             viewport={{ once: true }}
@@ -241,15 +244,18 @@ const Index = () => {
 
           {/* Side annotations */}
           <motion.div
-            className="hidden md:block space-y-6 pt-20"
+            className="flex md:flex-col justify-center items-center md:items-start gap-4 md:gap-0 md:space-y-6 pt-8 md:pt-20 w-full md:w-auto text-center md:text-left"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 0.4, x: 0 }}
             viewport={{ once: true }}
           >
-            <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Based in</p>
-            <p className="font-cormorant text-sm italic text-muted-foreground/40">Pune, Maharashtra</p>
-            <div className="w-px h-8 bg-border/20 ml-4" />
-            <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Ashoka University</p>
+            <div className="flex flex-col items-center md:items-start">
+              <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Based in</p>
+              <p className="font-cormorant text-sm italic text-muted-foreground/40">Pune, Maharashtra</p>
+            </div>
+            <div className="hidden md:block w-px h-8 bg-border/20 ml-4" />
+            <div className="md:hidden w-8 h-px bg-border/20" />
+            <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 mt-2 md:mt-0">Ashoka University</p>
           </motion.div>
         </div>
       </section>
@@ -335,7 +341,7 @@ const Index = () => {
       <section className="py-24 px-6 md:px-12 relative overflow-hidden border-t-2 border-primary/20 mt-12 bg-background/50 backdrop-blur-xl noise-texture drop-shadow-[0_0_100px_rgba(255,215,0,0.05)]">
         {/* Portrait Placeholder 1 (Explore background) */}
         <motion.div
-          className="absolute right-[5%] bottom-[10%] hidden lg:block w-48 h-60 lg:w-56 lg:h-72 rotate-[8deg] bg-card/40 backdrop-blur-md border border-border/30 p-2 pb-10 shadow-2xl z-0 warp-slight group"
+          className="relative md:absolute mx-auto md:mx-0 md:right-[5%] md:bottom-[10%] mb-12 md:mb-0 w-48 h-60 lg:w-56 lg:h-72 rotate-[4deg] md:rotate-[8deg] bg-card/40 backdrop-blur-md border border-border/30 p-2 pb-10 shadow-2xl z-0 warp-slight group block"
           initial={{ opacity: 0, y: 30, rotate: 0 }}
           whileInView={{ opacity: 1, y: 0, rotate: 8 }}
           viewport={{ once: true }}
@@ -369,11 +375,11 @@ const Index = () => {
           {navBlocks.map((block, i) => (
             <motion.div
               key={block.label}
+              className={i % 2 === 1 ? "sm:mt-12" : ""}
               initial={{ opacity: 0, y: 40, rotate: i % 2 === 0 ? -2 : 2 }}
               whileInView={{ opacity: 1, y: 0, rotate: i % 2 === 0 ? -0.5 : 0.5 }}
               transition={{ delay: i * 0.12, duration: 0.7 }}
               viewport={{ once: true }}
-              style={{ marginTop: i % 2 === 1 ? "3rem" : "0" }}
             >
               <Link
                 to={block.to}

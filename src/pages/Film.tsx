@@ -179,6 +179,22 @@ const Film = () => {
           {projects.map((project, i) => {
             const offsets = [0, 12, 5, 15, 3, 10, 7, 14, 2, 8, 4];
             const rotations = [-0.5, 0.3, -0.8, 0.5, -0.3, 0.7, -0.4, 0.6, -0.2, 0.4, -0.6];
+            const overlayGradients = [
+              "from-primary/40 to-transparent",
+              "from-secondary/40 to-transparent",
+              "from-accent/40 to-transparent",
+              "from-burnt-orange/40 to-transparent",
+              "from-maroon/40 to-transparent",
+            ];
+            const borderColors = [
+              "border-primary/50 group-hover/vid:border-primary group-hover/vid:shadow-[0_0_30px_rgba(255,215,0,0.3)]",
+              "border-secondary/50 group-hover/vid:border-secondary group-hover/vid:shadow-[0_0_30px_rgba(220,20,60,0.3)]",
+              "border-accent/50 group-hover/vid:border-accent group-hover/vid:shadow-[0_0_30px_rgba(0,128,128,0.3)]",
+              "border-burnt-orange/50 group-hover/vid:border-burnt-orange group-hover/vid:shadow-[0_0_30px_rgba(255,140,0,0.3)]",
+              "border-maroon/50 group-hover/vid:border-maroon group-hover/vid:shadow-[0_0_30px_rgba(128,0,0,0.3)]",
+            ];
+            const overlayGrad = overlayGradients[i % overlayGradients.length];
+            const borderCol = borderColors[i % borderColors.length];
 
             return (
               <motion.div
@@ -244,42 +260,42 @@ const Film = () => {
                   {(project.embedId || project.localVideo || project.driveVideo) && (
                     <div
                       style={{ direction: "ltr" }}
-                      className="relative aspect-video bg-muted/10 border border-border/20 overflow-hidden cursor-pointer group/vid warp-slight"
+                      className={`relative aspect-video bg-muted/10 border-2 ${borderCol} overflow-hidden cursor-pointer group/vid warp-slight transition-all duration-500 rounded-sm`}
                       onClick={() => setLightbox(project.embedId ? { type: 'youtube', src: project.embedId } : project.driveVideo ? { type: 'drive', src: project.driveVideo } : { type: 'local', src: project.localVideo! })}
                     >
                       {project.embedId ? (
                         <img
                           src={`https://img.youtube.com/vi/${project.embedId}/hqdefault.jpg`}
                           alt={project.title}
-                          className="w-full h-full object-cover opacity-60 group-hover/vid:opacity-85 group-hover/vid:scale-110 transition-all duration-700"
+                          className="w-full h-full object-cover opacity-90 group-hover/vid:opacity-100 group-hover/vid:scale-105 saturate-[1.1] group-hover/vid:saturate-[1.3] transition-all duration-700"
                           loading="lazy"
                         />
                       ) : project.thumbnail ? (
                         <img
                           src={project.thumbnail}
                           alt={project.title}
-                          className="w-full h-full object-cover opacity-60 group-hover/vid:opacity-85 group-hover/vid:scale-110 transition-all duration-700"
+                          className="w-full h-full object-cover opacity-90 group-hover/vid:opacity-100 group-hover/vid:scale-105 saturate-[1.1] group-hover/vid:saturate-[1.3] transition-all duration-700"
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-full h-full bg-black/40 flex items-center justify-center opacity-60 group-hover/vid:opacity-85 transition-all duration-700">
+                        <div className="w-full h-full bg-black/40 flex items-center justify-center opacity-90 group-hover/vid:opacity-100 transition-all duration-700">
                           <span className="font-cinzel text-muted-foreground text-xl">Play Video</span>
                         </div>
                       )}
                       
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
-                      <div className="absolute inset-0 bg-gradient-to-r from-secondary/10 to-accent/10 opacity-0 group-hover/vid:opacity-100 transition-opacity duration-500 mix-blend-overlay" />
+                      <div className={`absolute inset-0 bg-gradient-to-tr ${overlayGrad} mix-blend-multiply opacity-70 group-hover/vid:opacity-20 transition-opacity duration-500`} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
                       <div className="absolute inset-0 flex items-center justify-center">
                         <motion.div
-                          className="w-14 h-14 rounded-full border border-foreground/20 flex items-center justify-center backdrop-blur-sm bg-background/20 group-hover/vid:border-primary/60 group-hover/vid:scale-110 transition-all duration-300"
+                          className="w-16 h-16 rounded-full border-2 border-primary/60 flex items-center justify-center backdrop-blur-md bg-background/40 group-hover/vid:bg-primary/20 group-hover/vid:scale-110 group-hover/vid:border-primary transition-all duration-300 shadow-[0_0_20px_rgba(255,215,0,0.15)]"
                           whileHover={{ scale: 1.2 }}
                         >
-                          <div className="w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[12px] border-l-foreground/70 ml-1" />
+                          <div className="w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-l-[14px] border-l-primary ml-1" />
                         </motion.div>
                       </div>
                       {/* Decorative corner */}
-                      <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-primary/20 opacity-0 group-hover/vid:opacity-100 transition-opacity" />
-                      <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-primary/20 opacity-0 group-hover/vid:opacity-100 transition-opacity" />
+                      <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary/40 opacity-0 group-hover/vid:opacity-100 transition-opacity" />
+                      <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary/40 opacity-0 group-hover/vid:opacity-100 transition-opacity" />
                     </div>
                   )}
 
@@ -289,7 +305,7 @@ const Film = () => {
                       {project.episodes.map((ep) => (
                         <div
                           key={ep.label}
-                          className={`relative aspect-video bg-muted/10 border border-border/20 overflow-hidden ${ep.embedId ? 'cursor-pointer group/ep warp-slight' : 'border-dashed opacity-50 flex items-center justify-center'}`}
+                          className={`relative aspect-video bg-muted/10 border-2 border-primary/30 hover:border-primary/80 overflow-hidden ${ep.embedId ? 'cursor-pointer group/ep warp-slight hover:shadow-[0_0_20px_rgba(255,215,0,0.2)]' : 'border-dashed opacity-50 flex items-center justify-center'} transition-all duration-300 rounded-sm`}
                           onClick={() => ep.embedId && setLightbox({ type: 'youtube', src: ep.embedId })}
                         >
                           {ep.embedId ? (
@@ -297,14 +313,15 @@ const Film = () => {
                               <img
                                 src={`https://img.youtube.com/vi/${ep.embedId}/hqdefault.jpg`}
                                 alt={ep.label}
-                                className="w-full h-full object-cover opacity-60 group-hover/ep:opacity-85 group-hover/ep:scale-110 transition-all duration-700"
+                                className="w-full h-full object-cover opacity-90 group-hover/ep:opacity-100 group-hover/ep:scale-105 saturate-[1.1] group-hover/ep:saturate-[1.3] transition-all duration-700"
                                 loading="lazy"
                               />
-                              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
-                              <div className="absolute bottom-3 left-3 font-grotesk text-xs tracking-wider">{ep.label}</div>
+                              <div className="absolute inset-0 bg-gradient-to-tr from-secondary/30 to-transparent mix-blend-multiply opacity-60 group-hover/ep:opacity-20 transition-opacity duration-500" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                              <div className="absolute bottom-3 left-3 font-grotesk text-xs tracking-wider text-primary font-bold drop-shadow-md">{ep.label}</div>
                               <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-11 h-11 rounded-full border border-foreground/20 flex items-center justify-center backdrop-blur-sm bg-background/20">
-                                  <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[9px] border-l-foreground/70 ml-0.5" />
+                                <div className="w-12 h-12 rounded-full border border-primary/50 flex items-center justify-center backdrop-blur-md bg-background/40 group-hover/ep:bg-primary/20 transition-all duration-300 shadow-[0_0_15px_rgba(255,215,0,0.15)]">
+                                  <div className="w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-primary ml-1" />
                                 </div>
                               </div>
                             </>

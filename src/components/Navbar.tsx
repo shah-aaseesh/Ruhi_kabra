@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -14,11 +14,25 @@ const links = [
 const Navbar = () => {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+      open ? "bg-background/95 backdrop-blur-md border-b border-border" : 
+      scrolled ? "bg-background/80 backdrop-blur-md border-b border-border/20 shadow-lg" : 
+      "mix-blend-difference"
+    )}>
       <div className="flex items-center justify-between px-6 py-4 md:px-12">
-        <Link to="/" className="font-cinzel text-lg tracking-[0.3em] text-foreground hover:text-primary transition-colors">
+        <Link to="/" className="font-cinzel text-lg tracking-[0.3em] text-foreground hover:text-primary transition-colors" onClick={() => setOpen(false)}>
           Ruhi Kabra
         </Link>
         <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
@@ -40,7 +54,7 @@ const Navbar = () => {
         </div>
       </div>
       {open && (
-        <div className="md:hidden bg-background/95 backdrop-blur-sm border-b border-border px-6 pb-6 space-y-4">
+        <div className="md:hidden px-6 pb-6 space-y-4">
           {links.map((l) => (
             <Link
               key={l.to}

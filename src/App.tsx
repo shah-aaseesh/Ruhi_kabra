@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import FilmGrain from "@/components/FilmGrain";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Index from "./pages/Index.tsx";
 import Film from "./pages/Film.tsx";
 import Theatre from "./pages/Theatre.tsx";
@@ -42,6 +43,7 @@ const App = () => (
         <CustomCursor />
         <Navbar />
         <AnimatedRoutes />
+        <Footer />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

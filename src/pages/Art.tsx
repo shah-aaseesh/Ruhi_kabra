@@ -1,37 +1,52 @@
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
-import { MandalaPattern, FloatingDecoElement, PaisleyPattern, ScatteredDots, DiagonalLine, DottedCircle, RangoliCorner, DistortedText } from "@/components/DecorativeElements";
+import { MandalaPattern, FloatingDecoElement, PaisleyPattern, ScatteredDots, DiagonalLine, DottedCircle, RangoliCorner, DistortedText, CreativeMandala, ImagePattern } from "@/components/DecorativeElements";
 
-const artPieces = Array.from({ length: 12 }, (_, i) => ({
-  id: i + 1,
-  title: `Untitled ${i + 1}`,
-  aspect: [1.4, 0.8, 1.2, 0.7, 1.5, 0.9, 1.1, 1.6, 0.75, 1.3, 0.85, 1.45][i],
-  gradient: [
-    "from-maroon/20 via-accent/10 to-transparent",
-    "from-burnt-orange/15 via-transparent to-accent/10",
-    "from-gold/10 via-maroon/10 to-transparent",
-    "from-accent/20 via-transparent to-burnt-orange/10",
-    "from-secondary/15 via-gold/10 to-transparent",
-    "from-maroon/10 via-accent/15 to-transparent",
-    "from-burnt-orange/20 via-transparent to-gold/10",
-    "from-accent/15 via-secondary/10 to-transparent",
-    "from-gold/15 via-burnt-orange/10 to-transparent",
-    "from-secondary/20 via-transparent to-accent/10",
-    "from-maroon/15 via-gold/10 to-transparent",
-    "from-accent/10 via-burnt-orange/15 to-transparent",
-  ][i],
-  rotate: [-2, 1.5, -0.8, 2, -1.5, 0.5, -1, 1.8, -0.5, 1.2, -1.8, 0.8][i],
-}));
+const artPieces = [
+  {
+    id: 1,
+    title: "Big 👁️ small eye",
+    image: "/arts/Big 👁️ small eye(Sem 6 canvas).jpg",
+    rotate: -2,
+  },
+  {
+    id: 2,
+    title: "Philosophy class was fun today",
+    image: "/arts/Philosophy class was fun today.jpg",
+    rotate: 1.5,
+  },
+  {
+    id: 3,
+    title: "Untitled",
+    image: "/arts/c.jpg",
+    rotate: -0.8,
+  },
+  {
+    id: 4,
+    title: "Untitled",
+    image: "/arts/d.jpg",
+    rotate: 2,
+  },
+  {
+    id: 5,
+    title: "Untitled",
+    image: "/arts/e.jpg",
+    rotate: -1.5,
+  }
+];
 
 const Art = () => {
   return (
     <PageTransition>
       <section className="relative pt-24 pb-12 px-6 md:px-12 overflow-hidden">
         <FloatingDecoElement x={85} y={5} delay={0}>
-          <MandalaPattern size={280} className="text-burnt-orange animate-slow-spin" opacity={0.03} />
+          <ImagePattern src="/bg/Head-removebg-preview.png" size={350} opacity={0.15} className="rotate-12" />
         </FloatingDecoElement>
         <FloatingDecoElement x={5} y={30} delay={2}>
-          <PaisleyPattern className="text-primary" opacity={0.04} />
+          <ImagePattern src="/bg/Octopus-removebg-preview.png" size={300} opacity={0.12} className="-rotate-6" />
+        </FloatingDecoElement>
+        <FloatingDecoElement x={45} y={15} delay={1}>
+          <CreativeMandala size={250} className="text-burnt-orange opacity-40 animate-slow-spin" />
         </FloatingDecoElement>
         <RangoliCorner className="absolute top-0 right-0 text-burnt-orange" flip />
         <ScatteredDots count={25} />
@@ -79,9 +94,8 @@ const Art = () => {
           {artPieces.map((piece, i) => (
             <motion.div
               key={piece.id}
-              className="group relative break-inside-avoid mb-3 md:mb-4 overflow-hidden"
+              className="group relative break-inside-avoid mb-6 md:mb-8 overflow-hidden bg-muted/10 warp-slight"
               style={{
-                aspectRatio: `1 / ${piece.aspect}`,
                 rotate: `${piece.rotate}deg`,
               }}
               initial={{ opacity: 0, y: 40, scale: 0.9, rotate: piece.rotate * 3 }}
@@ -98,21 +112,18 @@ const Art = () => {
               {/* Border that becomes visible */}
               <div className="absolute inset-0 border border-border/10 group-hover:border-primary/30 transition-colors duration-500 z-20" />
 
-              {/* Gradient bg */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${piece.gradient}`} />
+              <img 
+                src={piece.image} 
+                alt={piece.title} 
+                className="w-full h-auto block grayscale-[30%] opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
+                loading="lazy" 
+              />
 
-              {/* Noise texture */}
-              <div className="absolute inset-0 noise-texture" />
-
-              {/* Number watermark */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-cinzel text-5xl md:text-6xl font-black text-foreground/[0.03] group-hover:text-foreground/[0.06] transition-colors">
-                  {String(piece.id).padStart(2, "0")}
-                </span>
-              </div>
+              {/* Noise texture overlay */}
+              <div className="absolute inset-0 noise-texture mix-blend-overlay opacity-30 pointer-events-none" />
 
               {/* Hover glow */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-primary/5 shadow-[inset_0_0_60px_hsl(43_52%_54%/0.1)] z-10" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-primary/10 shadow-[inset_0_0_60px_hsl(43_52%_54%/0.15)] z-10 pointer-events-none" />
 
               {/* Title reveal */}
               <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-background/60 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-400 z-20">

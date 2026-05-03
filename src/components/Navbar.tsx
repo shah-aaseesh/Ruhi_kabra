@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
       <div className="flex items-center justify-between px-6 py-4 md:px-12">
         <Link to="/" className="font-cinzel text-lg tracking-[0.3em] text-foreground hover:text-primary transition-colors">
-          RK
+          Ruhi Kabra
         </Link>
         <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
           {open ? <X size={24} /> : <Menu size={24} />}

@@ -1,20 +1,22 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageTransition from "@/components/PageTransition";
-import { MandalaPattern, FloatingDecoElement, DottedCircle, ScatteredDots, RangoliCorner, DiagonalLine, DistortedText } from "@/components/DecorativeElements";
+import { MandalaPattern, FloatingDecoElement, DottedCircle, ScatteredDots, RangoliCorner, DiagonalLine, DistortedText, CreativeMandala, ImagePattern } from "@/components/DecorativeElements";
+import { X, Play } from "lucide-react";
 
 const theatreProjects = [
-  { title: "Embers", role: "Director", accent: "text-burnt-orange" },
+  { title: "Embers", role: "Director", accent: "text-burnt-orange", driveVideo: "https://drive.google.com/file/d/1P8iGzT43QV76C4qLZYAr9ZDvwFz3_PWL/preview" },
   { title: "Kumbh ka Mela", role: "Set Designer", accent: "text-primary" },
   { title: "Devdas", role: "Set Designer", accent: "text-secondary" },
   { title: "Bombay Dying", role: "Set Designer", accent: "text-accent" },
-  { title: "Atyachaar", role: "Acting", accent: "text-maroon" },
-  { title: "Two Lives", role: "Set Designer", accent: "text-gold" },
+  { title: "Atyachaar", role: "Acting", accent: "text-maroon", driveVideo: "https://drive.google.com/file/d/1eDuc91xsWJnSATfC5e7zVILl0p6ZCaa4/preview" },
+  { title: "Two Lives", role: "Set Designer", accent: "text-gold", embedId: "X9GuxD2dnz0" },
   { title: "Maiyya", role: "Set Designer", accent: "text-burnt-orange" },
 ];
 
 const Theatre = () => {
   const spotlightRef = useRef<HTMLDivElement>(null);
+  const [lightbox, setLightbox] = useState<{ type: 'youtube' | 'drive', src: string } | null>(null);
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
@@ -48,10 +50,10 @@ const Theatre = () => {
 
         {/* Decorative elements */}
         <FloatingDecoElement x={10} y={20} delay={2}>
-          <MandalaPattern size={300} className="text-primary animate-slow-spin" opacity={0.02} />
+           <ImagePattern src="/bg/Head-removebg-preview.png" size={380} opacity={0.12} className="-rotate-12" />
         </FloatingDecoElement>
         <FloatingDecoElement x={75} y={65} delay={3}>
-          <DottedCircle size={150} className="text-secondary" />
+           <ImagePattern src="/bg/Octopus-removebg-preview.png" size={420} opacity={0.15} className="rotate-12" />
         </FloatingDecoElement>
         <RangoliCorner className="absolute top-0 left-0 text-primary" />
         <RangoliCorner className="absolute top-0 right-0 text-primary" flip />
@@ -115,7 +117,7 @@ const Theatre = () => {
           {theatreProjects.map((project, i) => (
             <motion.div
               key={project.title}
-              className="group relative"
+              className={`group relative ${project.embedId || project.driveVideo ? 'cursor-pointer' : ''}`}
               initial={{ opacity: 0, x: i % 2 === 0 ? -60 : 60, rotate: i % 2 === 0 ? -2 : 2 }}
               whileInView={{ opacity: 1, x: 0, rotate: 0 }}
               transition={{ delay: i * 0.08, duration: 0.7, ease: "easeOut" }}
@@ -124,17 +126,29 @@ const Theatre = () => {
                 marginLeft: i % 3 === 0 ? "0" : i % 3 === 1 ? "8%" : "4%",
                 marginRight: i % 3 === 0 ? "8%" : i % 3 === 1 ? "0" : "12%",
               }}
+              onClick={() => {
+                if (project.embedId) setLightbox({ type: 'youtube', src: project.embedId });
+                else if (project.driveVideo) setLightbox({ type: 'drive', src: project.driveVideo });
+              }}
             >
-              <div className="py-8 md:py-10 border-b border-border/15 flex items-center justify-between gap-6 group-hover:border-primary/20 transition-colors duration-500">
+              <div className="py-8 md:py-10 border-b border-border/15 flex items-center justify-between gap-6 group-hover:border-primary/20 transition-colors duration-500 relative">
                 {/* Left side */}
                 <div className="flex items-center gap-4 md:gap-6 flex-1 min-w-0">
                   <span className="font-grotesk text-xs text-muted-foreground/20 group-hover:text-primary/40 transition-colors">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <div className="w-0 group-hover:w-8 h-px bg-primary/30 transition-all duration-500" />
-                  <h2 className="font-cinzel text-xl md:text-3xl lg:text-4xl font-bold group-hover:text-primary transition-colors duration-500 chromatic-text truncate">
-                    {project.title}
-                  </h2>
+                  <div className="w-0 group-hover:w-8 h-px bg-primary/30 transition-all duration-500 shrink-0" />
+                  <div className="flex items-center gap-3 md:gap-5 min-w-0">
+                    <h2 className="font-cinzel text-xl md:text-3xl lg:text-4xl font-bold group-hover:text-primary transition-colors duration-500 chromatic-text truncate">
+                      {project.title}
+                    </h2>
+                    {(project.embedId || project.driveVideo) && (
+                      <div className="flex items-center gap-1.5 px-3 py-1 rounded-sm border border-primary/20 bg-primary/5 group-hover:bg-primary/10 group-hover:border-primary/50 transition-all duration-300 shrink-0 backdrop-blur-sm shadow-[0_0_10px_rgba(255,215,0,0.02)] group-hover:shadow-[0_0_15px_rgba(255,215,0,0.1)]">
+                        <Play size={10} className="text-primary/60 group-hover:text-primary transition-colors fill-primary/10 group-hover:fill-primary/40" />
+                        <span className="font-grotesk text-[9px] tracking-[0.2em] uppercase text-primary/60 group-hover:text-primary transition-colors mt-px">Watch</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Right side */}
@@ -171,6 +185,51 @@ const Theatre = () => {
           <div className="w-24 h-px bg-gradient-to-l from-transparent to-border/20" />
         </motion.div>
       </section>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <motion.div
+          className="fixed inset-0 z-[100] bg-background/97 backdrop-blur-md flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setLightbox(null)}
+        >
+          <motion.button
+            className="absolute top-6 right-6 text-foreground/50 hover:text-foreground transition-colors"
+            onClick={() => setLightbox(null)}
+            whileHover={{ rotate: 90, scale: 1.1 }}
+          >
+            <X size={28} />
+          </motion.button>
+          <motion.div
+            className="w-full max-w-5xl aspect-video border border-border/30 bg-black"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {lightbox.type === 'youtube' ? (
+              <iframe
+                src={`https://www.youtube.com/embed/${lightbox.src}?autoplay=1`}
+                className="w-full h-full border-0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                title="Video player"
+              />
+            ) : (
+              <iframe
+                src={lightbox.src}
+                className="w-full h-full border-0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                title="Google Drive Video player"
+              />
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+
     </PageTransition>
   );
 };

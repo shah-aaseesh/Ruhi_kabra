@@ -1,9 +1,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { Film, Theater, Palette, PenTool } from "lucide-react";
 
 /* Reusable Indian-maximalist decorative elements */
 
-export const MandalaPattern = ({ className = "", size = 200, opacity = 0.04 }: { className?: string; size?: number; opacity?: number }) => (
+export const MandalaPattern = ({ className = "", size = 200, opacity = 0.08 }: { className?: string; size?: number; opacity?: number }) => (
   <svg className={className} width={size} height={size} viewBox="0 0 200 200" fill="none" style={{ opacity }}>
     <circle cx="100" cy="100" r="95" stroke="currentColor" strokeWidth="0.5" />
     <circle cx="100" cy="100" r="75" stroke="currentColor" strokeWidth="0.3" />
@@ -33,7 +34,7 @@ export const MandalaPattern = ({ className = "", size = 200, opacity = 0.04 }: {
   </svg>
 );
 
-export const PaisleyPattern = ({ className = "", opacity = 0.03 }: { className?: string; opacity?: number }) => (
+export const PaisleyPattern = ({ className = "", opacity = 0.06 }: { className?: string; opacity?: number }) => (
   <svg className={className} width="120" height="180" viewBox="0 0 120 180" fill="none" style={{ opacity }}>
     <path d="M60,10 Q100,40 90,100 Q80,160 40,170 Q10,160 20,100 Q30,60 60,10Z" stroke="currentColor" strokeWidth="0.8" fill="none" />
     <path d="M60,30 Q85,50 80,95 Q72,145 45,155 Q25,145 32,95 Q40,60 60,30Z" stroke="currentColor" strokeWidth="0.5" fill="none" />
@@ -44,7 +45,7 @@ export const PaisleyPattern = ({ className = "", opacity = 0.03 }: { className?:
 
 export const RangoliCorner = ({ className = "", flip = false }: { className?: string; flip?: boolean }) => (
   <svg className={className} width="150" height="150" viewBox="0 0 150 150" fill="none"
-    style={{ transform: flip ? "scaleX(-1)" : undefined, opacity: 0.06 }}>
+    style={{ transform: flip ? "scaleX(-1)" : undefined, opacity: 0.1 }}>
     <path d="M0,0 Q75,20 150,0" stroke="currentColor" strokeWidth="0.8" fill="none" />
     <path d="M0,0 Q20,75 0,150" stroke="currentColor" strokeWidth="0.8" fill="none" />
     <path d="M0,0 C40,40 40,40 80,0" stroke="currentColor" strokeWidth="0.5" fill="none" />
@@ -55,6 +56,28 @@ export const RangoliCorner = ({ className = "", flip = false }: { className?: st
     <path d="M10,10 L60,10 L60,60 L10,60 Z" stroke="currentColor" strokeWidth="0.3" fill="none" transform="rotate(45 35 35)" />
   </svg>
 );
+
+export const CreativeMandala = ({ className = "", size = 200, opacity = 0.15 }: { className?: string; size?: number; opacity?: number }) => (
+  <div className={`relative flex items-center justify-center ${className}`} style={{ width: size, height: size, opacity }}>
+    <svg width={size} height={size} viewBox="0 0 200 200" className="absolute inset-0" fill="none">
+       <circle cx="100" cy="100" r="90" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 6" />
+       <circle cx="100" cy="100" r="45" stroke="currentColor" strokeWidth="0.5" />
+       <circle cx="100" cy="100" r="15" stroke="currentColor" strokeWidth="0.5" />
+    </svg>
+    {Array.from({ length: 8 }).map((_, i) => {
+      const angle = (i * Math.PI * 2) / 8;
+      const Icon = [Film, Theater, Palette, PenTool][i % 4];
+      return (
+        <div key={i} className="absolute" style={{
+           transform: `translate(${Math.cos(angle) * 70}px, ${Math.sin(angle) * 70}px) rotate(${(i * 360) / 8 + 45}deg)`
+        }}>
+          <Icon size={20} strokeWidth={1} color="currentColor" />
+        </div>
+      );
+    })}
+  </div>
+);
+
 
 export const FloatingDecoElement = ({ delay = 0, x = 0, y = 0, children }: { delay?: number; x?: number; y?: number; children: React.ReactNode }) => (
   <motion.div
@@ -106,7 +129,7 @@ export const DiagonalLine = ({ className = "" }: { className?: string }) => (
 );
 
 export const DottedCircle = ({ size = 100, className = "" }: { size?: number; className?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 100 100" className={className} style={{ opacity: 0.06 }}>
+  <svg width={size} height={size} viewBox="0 0 100 100" className={className} style={{ opacity: 0.1 }}>
     <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="1" strokeDasharray="3 6" fill="none" />
     <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 8" fill="none" />
   </svg>
@@ -127,4 +150,14 @@ export const ScatteredDots = ({ count = 20, className = "" }: { count?: number; 
       />
     ))}
   </div>
+);
+
+export const ImagePattern = ({ src, className = "", opacity = 0.1, size = 300, alt = "Decorative Pattern" }: { src: string; className?: string; opacity?: number; size?: number, alt?: string }) => (
+  <img 
+    src={src} 
+    alt={alt}
+    className={`pointer-events-none object-contain ${className}`}
+    style={{ width: size, opacity }} 
+    loading="lazy"
+  />
 );

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import PageTransition from "@/components/PageTransition";
 import {
   MandalaPattern, PaisleyPattern, RangoliCorner, FloatingDecoElement,
-  DistortedText, ParallaxLayer, DiagonalLine, DottedCircle, ScatteredDots
+  DistortedText, ParallaxLayer, DiagonalLine, DottedCircle, ScatteredDots, CreativeMandala, ImagePattern
 } from "@/components/DecorativeElements";
 import { Film, Theater, Palette, PenTool } from "lucide-react";
 
@@ -18,10 +18,10 @@ const navBlocks = [
 ];
 
 const featuredFilms = [
-  { title: "BAI", role: "Documentary", rotate: "-2deg" },
-  { title: "The Man", role: "Short Film", rotate: "1deg" },
-  { title: "Off Script", role: "Award Winning", rotate: "-1deg" },
-  { title: "Stained", role: "Short Film", rotate: "2deg" },
+  { title: "BAI", role: "Documentary", rotate: "-2deg", image: "/bg/BAI.jpg" },
+  { title: "The Man", role: "Short Film", rotate: "1deg", image: "/bg/The Man.jpg" },
+  { title: "Off Script", role: "Award Winning", rotate: "-1deg", image: "/bg/OFF SCRIPT.jpg" },
+  { title: "A Couple of Shots", role: "Short Film", rotate: "2deg", image: "/bg/A couple of shots.jpg" },
 ];
 
 const marqueeText = "FILMMAKER • ARTIST • WRITER • STORYTELLER • CREATOR • DREAMER • ";
@@ -45,18 +45,22 @@ const Index = () => {
           <motion.div className="absolute top-[5%] right-[30%] w-[200px] h-[200px] rounded-full bg-gold blur-[100px] animate-pulse-glow" style={{ animationDelay: "1s" }} />
         </div>
 
-        {/* Mandala patterns floating */}
-        <FloatingDecoElement x={5} y={15} delay={0}>
-          <MandalaPattern size={300} className="text-primary animate-slow-spin" />
+        {/* Pattern images floating */}
+        <FloatingDecoElement x={5} y={10} delay={0}>
+          <ImagePattern src="/bg/Head-removebg-preview.png" size={380} opacity={0.15} className="animate-slow-spin opacity-50" />
         </FloatingDecoElement>
-        <FloatingDecoElement x={75} y={60} delay={2}>
-          <MandalaPattern size={200} className="text-secondary" opacity={0.03} />
+        <FloatingDecoElement x={65} y={50} delay={2}>
+          <ImagePattern src="/bg/Octopus-removebg-preview.png" size={400} opacity={0.12} className="animate-slow-spin" />
         </FloatingDecoElement>
-        <FloatingDecoElement x={85} y={10} delay={1}>
-          <PaisleyPattern className="text-burnt-orange" opacity={0.04} />
+        {/* Other patterns */}
+        <FloatingDecoElement x={85} y={15} delay={1}>
+          <PaisleyPattern className="text-burnt-orange scale-110" />
         </FloatingDecoElement>
-        <FloatingDecoElement x={10} y={70} delay={3}>
-          <PaisleyPattern className="text-primary rotate-45" opacity={0.03} />
+        <FloatingDecoElement x={10} y={75} delay={3}>
+          <CreativeMandala size={250} className="text-primary rotate-45 opacity-60" />
+        </FloatingDecoElement>
+        <FloatingDecoElement x={45} y={35} delay={1.5}>
+          <CreativeMandala size={300} className="text-gold animate-slow-spin opacity-30" />
         </FloatingDecoElement>
 
         {/* Rangoli corners */}
@@ -162,23 +166,18 @@ const Index = () => {
             multidisciplinary artist
           </span>
         </motion.div>
-        <motion.div
-          className="absolute right-4 top-1/3 hidden md:block"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 0.1, x: 0 }}
-          transition={{ delay: 2.2 }}
-        >
-          <span className="font-cormorant text-xs tracking-[0.3em] italic [writing-mode:vertical-rl]">
-            Sonipat, Haryana
-          </span>
-        </motion.div>
+
+
+
       </section>
 
       {/* About - Handwritten Note */}
       <section className="relative py-32 px-6 md:px-12 overflow-hidden">
         {/* Background decorations */}
         <ParallaxLayer speed={0.3} className="absolute inset-0 pointer-events-none">
-          <MandalaPattern size={400} className="absolute -right-40 top-10 text-secondary animate-slow-spin" opacity={0.02} />
+          <ImagePattern src="/bg/Octopus-removebg-preview.png" size={600} opacity={0.12} className="absolute -right-40 top-10 rotate-12" />
+          <PaisleyPattern className="absolute left-[10%] top-[40%] text-burnt-orange scale-125 rotate-45" />
+          <ImagePattern src="/bg/Head-removebg-preview.png" size={450} opacity={0.1} className="absolute left-[5%] bottom-[-5%] -rotate-6" />
         </ParallaxLayer>
         <FloatingDecoElement x={80} y={20} delay={1}>
           <DottedCircle size={120} className="text-gold" />
@@ -188,7 +187,7 @@ const Index = () => {
           <div className="w-[600px] h-[600px] rounded-full bg-gold/5 blur-[200px]" />
         </div>
 
-        <div className="flex flex-col md:flex-row items-start gap-8 md:gap-16 max-w-5xl mx-auto">
+        <div className="flex flex-col md:flex-row items-start gap-8 md:gap-12 lg:gap-16 max-w-6xl mx-auto">
           {/* Decorative vertical bar */}
           <motion.div
             className="hidden md:flex flex-col items-center gap-4 pt-12"
@@ -201,8 +200,10 @@ const Index = () => {
             <div className="w-px h-40 bg-gradient-to-b from-primary/30 to-transparent" />
           </motion.div>
 
+
+
           <motion.div
-            className="relative max-w-xl rotate-[-1.5deg] bg-card/40 backdrop-blur-sm border border-border/30 p-8 md:p-12 distorted-border noise-texture"
+            className="relative max-w-xl rotate-[-1.5deg] bg-card/60 backdrop-blur-md border-2 border-primary/40 shadow-[0_0_50px_rgba(255,215,0,0.1)] p-8 md:p-12 distorted-border noise-texture"
             initial={{ opacity: 0, y: 50, rotate: -4, scale: 0.95 }}
             whileInView={{ opacity: 1, y: 0, rotate: -1.5, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -215,10 +216,7 @@ const Index = () => {
             <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-bl from-muted/50 to-transparent" />
 
             <p className="font-cormorant text-lg md:text-xl leading-relaxed text-foreground/85 italic relative z-10">
-              "Hello! I'm <DistortedText className="font-semibold not-italic">Ruhi Kabra</DistortedText>. I love doing anything creative and I am a yapper when I feel.
-              I've been drawing ever since I could remember and have recently expanded my artistic
-              pursuits into film and writing. Here is a bunch of my recent work. I hope you enjoy
-              going through it as much as I did creating them."
+              "Hello! I’m <DistortedText className="font-semibold not-italic">Ruhi Kabra</DistortedText>. I love doing anything creative and adventurous. I express myself by creating all kinds of art and I am a yapper when I feel. I’ve been drawing ever since I could remember and have recently expanded my artistic pursuits into film and writing. I’m finishing up my undergrad at Ashoka University as a psych major and media studies minor. I also completed a summer course at Prague film school last year after which I travelled solo around Europe for a few weeks. Here is a bunch of my recent work. I hope you enjoy going through it as much as I did creating them and hopefully I can be of some help to you!"
             </p>
             <div className="mt-6 flex items-center gap-3 relative z-10">
               <div className="w-16 h-px bg-primary/30" />
@@ -226,6 +224,19 @@ const Index = () => {
             </div>
             {/* Ink splatter decoration */}
             <div className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-secondary/5 blur-md" />
+          </motion.div>
+
+          {/* Portrait Placeholder 2 (About section tape) */}
+          <motion.div
+            className="relative w-56 h-72 lg:w-64 lg:h-80 -ml-10 mt-16 -rotate-6 bg-card/40 backdrop-blur-md border border-border/30 p-2 pb-10 shadow-[0_0_30px_rgba(255,215,0,0.02)] z-20 hidden md:block warp-slight group"
+            initial={{ opacity: 0, x: -30, rotate: -15 }}
+            whileInView={{ opacity: 1, x: 0, rotate: -6 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            <img src="/Photos/image2.png" alt="Ruhi Kabra" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+            <div className="absolute bottom-3 left-0 right-0 text-center font-cormorant italic text-sm text-foreground/40"></div>
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-5 bg-secondary/30 rotate-2 blur-[1px]" />
           </motion.div>
 
           {/* Side annotations */}
@@ -236,7 +247,7 @@ const Index = () => {
             viewport={{ once: true }}
           >
             <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Based in</p>
-            <p className="font-cormorant text-sm italic text-muted-foreground/40">Haryana & Maharashtra</p>
+            <p className="font-cormorant text-sm italic text-muted-foreground/40">Pune, Maharashtra</p>
             <div className="w-px h-8 bg-border/20 ml-4" />
             <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Ashoka University</p>
           </motion.div>
@@ -246,10 +257,11 @@ const Index = () => {
       {/* Featured Films - Overlapping cards */}
       <section className="py-24 px-6 md:px-12 relative overflow-hidden">
         <ParallaxLayer speed={0.2} className="absolute inset-0 pointer-events-none">
-          <PaisleyPattern className="absolute left-[5%] top-[20%] text-primary rotate-12" opacity={0.04} />
-          <PaisleyPattern className="absolute right-[10%] bottom-[10%] text-secondary -rotate-45" opacity={0.03} />
+          <ImagePattern src="/bg/Head-removebg-preview.png" size={400} opacity={0.12} className="absolute left-[5%] top-[10%] rotate-12" />
+          <PaisleyPattern className="absolute right-[10%] bottom-[10%] text-secondary/40 -rotate-45 scale-110" />
+          <ImagePattern src="/bg/Octopus-removebg-preview.png" size={500} opacity={0.08} className="absolute left-[50%] top-[50%] -translate-y-1/2 -translate-x-1/2" />
         </ParallaxLayer>
-        <ScatteredDots count={15} />
+        <ScatteredDots count={30} className="text-primary" />
 
         <div className="flex items-baseline gap-6 mb-16">
           <motion.h2
@@ -273,7 +285,7 @@ const Index = () => {
           {featuredFilms.map((film, i) => (
             <motion.div
               key={film.title}
-              className="group relative aspect-[3/4] bg-muted/20 border border-border/20 overflow-hidden glitch-hover warp-slight"
+              className="group relative aspect-[3/4] bg-card/70 backdrop-blur-sm border-2 border-primary/30 hover:border-primary/80 overflow-hidden glitch-hover warp-slight shadow-xl"
               style={{ rotate: film.rotate, marginTop: i % 2 === 1 ? "2rem" : "0" }}
               initial={{ opacity: 0, y: 50, rotate: Number(film.rotate.replace("deg", "")) * 2 }}
               whileInView={{ opacity: 1, y: 0, rotate: Number(film.rotate.replace("deg", "")) }}
@@ -281,10 +293,14 @@ const Index = () => {
               viewport={{ once: true }}
               whileHover={{ scale: 1.05, rotate: 0, transition: { duration: 0.3 } }}
             >
+              {/* Image background */}
+              {film.image && (
+                <img src={film.image} alt={film.title} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 grayscale-[30%] group-hover:grayscale-0" />
+              )}
               {/* Colored overlay gradients */}
-              <div className={`absolute inset-0 ${["bg-gradient-to-br from-maroon/20 to-transparent", "bg-gradient-to-bl from-accent/20 to-transparent", "bg-gradient-to-tr from-burnt-orange/15 to-transparent", "bg-gradient-to-tl from-gold/15 to-transparent"][i]}`} />
+              <div className={`absolute inset-0 ${["bg-gradient-to-br from-maroon/40 to-transparent", "bg-gradient-to-bl from-accent/40 to-transparent", "bg-gradient-to-tr from-burnt-orange/30 to-transparent", "bg-gradient-to-tl from-gold/30 to-transparent"][i]} mix-blend-multiply`} />
               {/* Noise */}
-              <div className="absolute inset-0 noise-texture" />
+              <div className="absolute inset-0 noise-texture mix-blend-overlay opacity-50" />
               {/* Number watermark */}
               <span className="absolute top-3 right-3 font-cinzel text-6xl font-black text-foreground/[0.03]">
                 {String(i + 1).padStart(2, "0")}
@@ -316,9 +332,28 @@ const Index = () => {
       </section>
 
       {/* Navigation Blocks - More dramatic */}
-      <section className="py-24 px-6 md:px-12 relative overflow-hidden">
-        <FloatingDecoElement x={90} y={30} delay={0}>
-          <MandalaPattern size={250} className="text-gold animate-slow-spin" opacity={0.02} />
+      <section className="py-24 px-6 md:px-12 relative overflow-hidden border-t-2 border-primary/20 mt-12 bg-background/50 backdrop-blur-xl noise-texture drop-shadow-[0_0_100px_rgba(255,215,0,0.05)]">
+        {/* Portrait Placeholder 1 (Explore background) */}
+        <motion.div
+          className="absolute right-[5%] bottom-[10%] hidden lg:block w-48 h-60 lg:w-56 lg:h-72 rotate-[8deg] bg-card/40 backdrop-blur-md border border-border/30 p-2 pb-10 shadow-2xl z-0 warp-slight group"
+          initial={{ opacity: 0, y: 30, rotate: 0 }}
+          whileInView={{ opacity: 1, y: 0, rotate: 8 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <img src="/Photos/image3.png" alt="Ruhi Kabra" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+          <div className="absolute bottom-3 left-0 right-0 text-center font-cormorant italic text-sm text-muted-foreground/60"></div>
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-4 bg-primary/20 -rotate-3 blur-[1px]" />
+        </motion.div>
+
+        <FloatingDecoElement x={85} y={15} delay={0}>
+          <ImagePattern src="/bg/Octopus-removebg-preview.png" size={350} opacity={0.15} className="-rotate-12" />
+        </FloatingDecoElement>
+        <FloatingDecoElement x={5} y={55} delay={2}>
+          <ImagePattern src="/bg/Head-removebg-preview.png" size={280} opacity={0.12} className="rotate-6" />
+        </FloatingDecoElement>
+        <FloatingDecoElement x={45} y={5} delay={1}>
+          <CreativeMandala size={250} className="text-secondary/40 rotate-90 opacity-40" />
         </FloatingDecoElement>
 
         <motion.h2
@@ -342,9 +377,9 @@ const Index = () => {
             >
               <Link
                 to={block.to}
-                className={`group block relative p-8 md:p-12 border border-border/20 bg-card/20 hover:border-primary/30 transition-all duration-500 overflow-hidden border-l-2 ${block.accent} warp-slight`}
+                className={`group block relative p-8 md:p-12 border-2 border-primary/30 bg-card/80 hover:border-primary/100 hover:shadow-[0_0_40px_rgba(255,215,0,0.2)] transition-all duration-500 overflow-hidden border-l-4 border-b-4 ${block.accent} warp-slight backdrop-blur-sm`}
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${block.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${block.color} opacity-40 group-hover:opacity-100 transition-opacity duration-700`} />
                 {/* Pattern overlay */}
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <DottedCircle size={60} className="text-primary" />
@@ -374,21 +409,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-20 px-6 md:px-12 relative overflow-hidden">
-        <RangoliCorner className="absolute bottom-0 left-0 text-primary rotate-180" flip />
-        <div className="text-center space-y-4">
-          <p className="font-cinzel text-2xl tracking-[0.2em] text-foreground/20">RK</p>
-          <p className="font-cormorant text-sm text-muted-foreground/40 tracking-widest">
-            © 2024 Ruhi Kabra
-          </p>
-          <div className="flex items-center justify-center gap-3">
-            <div className="w-8 h-px bg-border/20" />
-            <div className="w-1.5 h-1.5 rotate-45 border border-border/20" />
-            <div className="w-8 h-px bg-border/20" />
-          </div>
-        </div>
-      </footer>
+
     </PageTransition>
   );
 };

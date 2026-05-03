@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
-import { MandalaPattern, FloatingDecoElement, PaisleyPattern, ScatteredDots, DiagonalLine, DottedCircle, RangoliCorner, DistortedText, ParallaxLayer } from "@/components/DecorativeElements";
+import { MandalaPattern, FloatingDecoElement, PaisleyPattern, ScatteredDots, DiagonalLine, DottedCircle, RangoliCorner, DistortedText, ParallaxLayer, CreativeMandala, ImagePattern } from "@/components/DecorativeElements";
 import { ExternalLink } from "lucide-react";
 
 const articles = [
-  { title: "A Third Space", excerpt: "On the liminal spaces between identities, cultures, and art forms — where creation happens in the in-between." },
-  { title: "Doorway", excerpt: "What stands at the threshold of memory and forgetting — a meditation on passage and permanence." },
-  { title: "My Name", excerpt: "An exploration of names, naming, and the weight they carry across languages and lives." },
+  { title: "A Third Space", excerpt: "On the liminal spaces between identities, cultures, and art forms — where creation happens in the in-between.", link: "https://substack.com/@ruhigh/note/p-192065027?r=6vuc5k&utm_source=notes-share-action&utm_medium=web" },
+  { title: "Doorway", excerpt: "What stands at the threshold of memory and forgetting — a meditation on passage and permanence.", link: "https://substack.com/@ruhigh/note/p-190555196?r=6vuc5k&utm_source=notes-share-action&utm_medium=web" },
+  { title: "My Name", excerpt: "An exploration of names, naming, and the weight they carry across languages and lives.", link: "https://substack.com/@ruhigh/note/p-190554784?r=6vuc5k&utm_source=notes-share-action&utm_medium=web" },
 ];
 
 const Writing = () => {
   return (
     <PageTransition>
       <section className="relative pt-24 pb-12 px-6 md:px-12 lg:px-24 overflow-hidden">
-        <FloatingDecoElement x={80} y={10} delay={0}>
-          <PaisleyPattern className="text-primary rotate-45" opacity={0.04} />
+        <FloatingDecoElement x={75} y={10} delay={0}>
+          <ImagePattern src="/bg/Octopus-removebg-preview.png" size={350} opacity={0.12} className="-rotate-12" />
         </FloatingDecoElement>
         <FloatingDecoElement x={5} y={40} delay={2}>
-          <MandalaPattern size={200} className="text-accent animate-slow-spin" opacity={0.02} />
+          <ImagePattern src="/bg/Head-removebg-preview.png" size={300} opacity={0.1} className="rotate-6" />
         </FloatingDecoElement>
         <RangoliCorner className="absolute top-0 right-0 text-primary" flip />
         <ScatteredDots count={20} />
@@ -72,28 +72,31 @@ const Writing = () => {
       {/* Articles - asymmetric editorial */}
       <section className="px-6 md:px-12 lg:px-24 pb-32 relative overflow-hidden">
         <ParallaxLayer speed={0.2} className="absolute inset-0 pointer-events-none">
-          <PaisleyPattern className="absolute right-[5%] top-[30%] text-secondary -rotate-12" opacity={0.025} />
+          <ImagePattern src="/bg/Head-removebg-preview.png" size={450} opacity={0.08} className="absolute right-[5%] top-[15%] rotate-12" />
+          <CreativeMandala size={350} className="absolute left-[10%] top-[45%] text-burnt-orange -rotate-45 opacity-40" />
         </ParallaxLayer>
 
         {/* Paper texture bg */}
         <div className="fixed top-0 right-0 w-1/3 h-full bg-gradient-to-l from-card/15 to-transparent pointer-events-none z-0" />
 
-        <div className="max-w-3xl space-y-20 md:space-y-28 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10 max-w-7xl mx-auto">
           {articles.map((article, i) => (
-            <motion.article
+            <motion.a
+              href={article.link}
+              target="_blank"
+              rel="noopener noreferrer"
               key={article.title}
-              className="group breathe relative"
-              style={{
-                animationDelay: `${i * 0.7}s`,
-                marginLeft: `${[0, 12, 5][i]}%`,
-              }}
-              initial={{ opacity: 0, y: 50, rotate: [-1, 0.5, -0.5][i] }}
-              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.7 }}
+              className="group relative bg-card/50 backdrop-blur-md border-2 border-primary/20 p-8 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(255,215,0,0.1)] transition-all duration-500 overflow-hidden warp-slight block cursor-pointer"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.6 }}
               viewport={{ once: true }}
             >
+              {/* Pattern inside card */}
+              <CreativeMandala size={250} className="absolute -top-10 -right-10 text-primary/10 rotate-45 group-hover:rotate-90 transition-transform duration-1000" />
+              
               {/* Background number */}
-              <span className="absolute -top-6 -left-4 font-cinzel text-7xl md:text-9xl font-black text-foreground/[0.02] select-none pointer-events-none">
+              <span className="absolute -top-4 -right-2 font-cinzel text-7xl font-black text-foreground/[0.04] select-none pointer-events-none">
                 {String(i + 1).padStart(2, "0")}
               </span>
 
@@ -123,7 +126,7 @@ const Writing = () => {
               <div className="absolute -right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
                 <DottedCircle size={40} className="text-primary" />
               </div>
-            </motion.article>
+            </motion.a>
           ))}
         </div>
 

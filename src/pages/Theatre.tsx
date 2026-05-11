@@ -121,7 +121,7 @@ const Theatre = () => {
             return (
             <motion.div
               key={project._id}
-              className={`group relative ${embedId || project.driveVideo ? 'cursor-pointer' : ''}`}
+              className={`group relative ${embedId || project.driveLink ? 'cursor-pointer' : ''}`}
               initial={{ opacity: 0, x: i % 2 === 0 ? -60 : 60, rotate: i % 2 === 0 ? -2 : 2 }}
               whileInView={{ opacity: 1, x: 0, rotate: 0 }}
               transition={{ delay: i * 0.08, duration: 0.7, ease: "easeOut" }}
@@ -132,7 +132,7 @@ const Theatre = () => {
               }}
               onClick={() => {
                 if (embedId) setLightbox({ type: 'youtube', src: embedId });
-                else if (project.driveVideo) setLightbox({ type: 'drive', src: project.driveVideo });
+                else if (project.driveLink) setLightbox({ type: 'drive', src: project.driveLink });
               }}
             >
               <div className="py-8 md:py-10 border-b border-border/15 flex items-center justify-between gap-6 group-hover:border-primary/20 transition-colors duration-500 relative">
@@ -146,7 +146,7 @@ const Theatre = () => {
                     <h2 className="font-cinzel text-xl md:text-3xl lg:text-4xl font-bold group-hover:text-primary transition-colors duration-500 chromatic-text truncate">
                       {project.title}
                     </h2>
-                    {(embedId || project.driveVideo) && (
+                    {(embedId || project.driveLink) && (
                       <div className="flex items-center gap-1.5 px-3 py-1 rounded-sm border border-primary/20 bg-primary/5 group-hover:bg-primary/10 group-hover:border-primary/50 transition-all duration-300 shrink-0 backdrop-blur-sm shadow-[0_0_10px_rgba(255,215,0,0.02)] group-hover:shadow-[0_0_15px_rgba(255,215,0,0.1)]">
                         <Play size={10} className="text-primary/60 group-hover:text-primary transition-colors fill-primary/10 group-hover:fill-primary/40" />
                         <span className="font-grotesk text-[9px] tracking-[0.2em] uppercase text-primary/60 group-hover:text-primary transition-colors mt-px">Watch</span>

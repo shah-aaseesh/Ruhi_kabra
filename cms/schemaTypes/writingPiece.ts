@@ -60,6 +60,13 @@ export default defineType({
       hidden: ({ document }) => document?.entryType !== 'internal',
     }),
     defineField({
+      name: 'image',
+      title: 'Cover Image',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Optional cover image for the writing piece',
+    }),
+    defineField({
       name: 'content',
       title: 'Content',
       type: 'array',

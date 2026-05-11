@@ -4,6 +4,7 @@ import { MandalaPattern, FloatingDecoElement, PaisleyPattern, ScatteredDots, Dia
 import { ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useWritings } from "@/hooks/useSanityData";
+import { urlFor } from "@/lib/sanity";
 
 const Writing = () => {
   const { data: articles, isLoading } = useWritings();
@@ -115,6 +116,17 @@ const Writing = () => {
                 <h2 className="font-cinzel text-3xl md:text-4xl font-bold group-hover:text-primary transition-colors duration-500 chromatic-text mb-4">
                   {article.title}
                 </h2>
+
+                {article.image && (
+                  <div className="mb-6 overflow-hidden border border-primary/10 aspect-[16/9] relative w-full max-w-lg">
+                    <img 
+                      src={urlFor(article.image).width(800).url()} 
+                      alt={article.title}
+                      className="object-cover w-full h-full opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale-[30%] group-hover:grayscale-0"
+                    />
+                    <div className="absolute inset-0 bg-primary/5 mix-blend-overlay pointer-events-none" />
+                  </div>
+                )}
 
                 <p className="font-cormorant text-base md:text-lg text-muted-foreground/60 italic leading-relaxed max-w-lg">
                   {article.excerpt}

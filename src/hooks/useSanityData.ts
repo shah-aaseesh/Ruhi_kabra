@@ -48,6 +48,15 @@ export function useFilmProjects() {
   })
 }
 
+export function useFeaturedFilms() {
+  return useQuery({
+    queryKey: ['featuredFilms'],
+    queryFn: async () => {
+      return sanityClient.fetch(`*[_type == "filmProject" && category == "featured"] | order(orderRank)`)
+    }
+  })
+}
+
 export function useTheatrePlays() {
   return useQuery({
     queryKey: ['theatrePlays'],

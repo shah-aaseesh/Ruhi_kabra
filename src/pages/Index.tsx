@@ -7,7 +7,8 @@ import {
   DistortedText, ParallaxLayer, DiagonalLine, DottedCircle, ScatteredDots, CreativeMandala, ImagePattern
 } from "@/components/DecorativeElements";
 import { Film, Theater, Palette, PenTool } from "lucide-react";
-import { useGlobalSettings } from "@/hooks/useSanityData";
+import { useGlobalSettings, useFeaturedFilms } from "@/hooks/useSanityData";
+import { urlFor } from "@/lib/sanity";
 
 const heroLetters = "RUHI KABRA".split("");
 
@@ -18,21 +19,34 @@ const navBlocks = [
   { to: "/writing", label: "Writing", icon: PenTool, color: "from-gold/30 to-transparent", accent: "border-l-primary" },
 ];
 
-const featuredFilms = [
+const featuredFilmsFallback = [
   { title: "BAI", role: "Documentary", rotate: "-2deg", image: "/bg/BAI.jpg" },
   { title: "The Man", role: "Short Film", rotate: "1deg", image: "/bg/The Man.jpg" },
   { title: "Off Script", role: "Award Winning", rotate: "-1deg", image: "/bg/OFF SCRIPT.jpg" },
   { title: "A Couple of Shots", role: "Short Film", rotate: "2deg", image: "/bg/A couple of shots.jpg" },
 ];
 
+const rotations = ["-2deg", "1deg", "-1deg", "2deg"];
+
 const marqueeText = "FILMMAKER • ARTIST • WRITER • STORYTELLER • CREATOR • DREAMER • ";
 
 const Index = () => {
   const { data: globalSettings } = useGlobalSettings();
+  const { data: featuredFilmsData } = useFeaturedFilms();
+  
   const aboutMeText = globalSettings?.aboutMe || "Hello! I’m Ruhi Kabra. I love doing anything creative and adventurous. I express myself by creating all kinds of art and I am a yapper when I feel. I’ve been drawing ever since I could remember and have recently expanded my artistic pursuits into film and writing. I’m finishing up my undergrad at Ashoka University as a psych major and media studies minor. I also completed a summer course at Prague film school last year after which I travelled solo around Europe for a few weeks. Here is a bunch of my recent work. I hope you enjoy going through it as much as I did creating them and hopefully I can be of some help to you!";
   const locationText = globalSettings?.location || "Pune, Maharashtra";
   const universityText = globalSettings?.university || "Ashoka University";
   const marqueeTextDynamic = globalSettings?.marqueeText || marqueeText;
+  
+  const featuredFilms = featuredFilmsData && featuredFilmsData.length > 0 
+    ? featuredFilmsData.map((film: any, index: number) => ({
+        title: film.title,
+        role: film.role || "Featured",
+        rotate: rotations[index % rotations.length],
+        image: film.image ? urlFor(film.image).width(600).url() : undefined
+      }))
+    : featuredFilmsFallback;
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
@@ -121,13 +135,13 @@ const Index = () => {
 
           {/* Marquee subtitle */}
           <motion.div
-            className="overflow-hidden mt-8 border-y border-border/20 py-3 w-[100vw] relative left-1/2 -translate-x-1/2"
+            className="overflow-hidden mt-8 border-y border-border/20 py-3 w-[100vw] -ml-[calc(50vw-50%)]"
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ delay: 1.4, duration: 0.8 }}
           >
             <div className="animate-marquee whitespace-nowrap">
-              <span className="font-cormorant text-lg md:text-xl text-muted-foreground/60 tracking-[0.3em] italic">
+              <span className="font-cormorant text-lg md:text-xl text-muted-foreground/80 tracking-[0.3em] italic">
                 {marqueeTextDynamic.repeat(4)}
               </span>
             </div>
@@ -414,9 +428,9 @@ const Index = () => {
       </section>
 
       {/* Horizontal divider marquee */}
-      <section className="py-8 overflow-hidden border-y border-border/10">
+      <section className="py-8 overflow-hidden border-y border-border/10 w-[100vw] -ml-[calc(50vw-50%)]">
         <div className="animate-marquee whitespace-nowrap">
-          <span className="font-cinzel text-sm text-muted-foreground/50 tracking-[0.5em]">
+          <span className="font-cinzel text-sm text-muted-foreground/80 tracking-[0.5em]">
             {"FILM • THEATRE • ART • WRITING • FILM • THEATRE • ART • WRITING • ".repeat(6)}
           </span>
         </div>

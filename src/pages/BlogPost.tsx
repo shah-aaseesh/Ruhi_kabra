@@ -4,6 +4,23 @@ import { PortableText } from '@portabletext/react';
 import PageTransition from "@/components/PageTransition";
 import { useWritingBySlug } from "@/hooks/useSanityData";
 import { ScatteredDots, DiagonalLine, RangoliCorner, DistortedText } from "@/components/DecorativeElements";
+import { urlFor } from "@/lib/sanity";
+
+const portableTextComponents = {
+  types: {
+    image: ({ value }: any) => {
+      if (!value?.asset?._ref) return null;
+      return (
+        <img
+          alt={value.alt || 'Blog image'}
+          loading="lazy"
+          src={urlFor(value).width(800).url()}
+          className="w-full my-10 rounded-sm object-cover opacity-90 border border-primary/20 shadow-lg grayscale-[20%]"
+        />
+      );
+    },
+  },
+};
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -60,7 +77,7 @@ const BlogPost = () => {
             </div>
 
             <div className="prose prose-invert prose-lg prose-p:font-cormorant prose-p:text-xl prose-p:leading-relaxed prose-p:text-muted-foreground/80 prose-headings:font-cinzel prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
-              <PortableText value={post.content} />
+              <PortableText value={post.content} components={portableTextComponents} />
             </div>
           </motion.div>
         </div>

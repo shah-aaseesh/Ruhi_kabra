@@ -70,7 +70,10 @@ export default defineType({
       name: 'content',
       title: 'Content',
       type: 'array',
-      of: [{ type: 'block' }],
+      of: [
+        { type: 'block' },
+        { type: 'image', options: { hotspot: true } }
+      ],
       hidden: ({ document }) => document?.entryType !== 'internal',
     }),
     orderRankField({ type: 'writingPiece' })

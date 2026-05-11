@@ -121,7 +121,7 @@ const Index = () => {
 
           {/* Marquee subtitle */}
           <motion.div
-            className="overflow-hidden mt-8 border-y border-border/20 py-3"
+            className="overflow-hidden mt-8 border-y border-border/20 py-3 w-[100vw] relative left-1/2 -translate-x-1/2"
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ delay: 1.4, duration: 0.8 }}
@@ -416,7 +416,7 @@ const Index = () => {
       {/* Horizontal divider marquee */}
       <section className="py-8 overflow-hidden border-y border-border/10">
         <div className="animate-marquee whitespace-nowrap">
-          <span className="font-cinzel text-sm text-muted-foreground/10 tracking-[0.5em]">
+          <span className="font-cinzel text-sm text-muted-foreground/50 tracking-[0.5em]">
             {"FILM • THEATRE • ART • WRITING • FILM • THEATRE • ART • WRITING • ".repeat(6)}
           </span>
         </div>

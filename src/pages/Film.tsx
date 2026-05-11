@@ -63,13 +63,13 @@ const Film = () => {
 
               {/* Marquee divider */}
               <motion.div
-                className="overflow-hidden my-6 border-y border-border/15 py-2 max-w-md"
+                className="overflow-hidden my-6 border-y border-border/15 py-2 w-[100vw] relative left-1/2 -translate-x-1/2"
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
               >
                 <div className="animate-marquee whitespace-nowrap">
-                  <span className="font-cormorant text-xs text-muted-foreground/30 tracking-[0.3em] italic">
+                  <span className="font-cormorant text-xs text-muted-foreground/60 tracking-[0.3em] italic">
                     {"DOCUMENTARY • SHORT FILM • EPISODIC • FEATURE • ".repeat(4)}
                   </span>
                 </div>

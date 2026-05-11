@@ -1,41 +1,12 @@
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import { MandalaPattern, FloatingDecoElement, PaisleyPattern, ScatteredDots, DiagonalLine, DottedCircle, RangoliCorner, DistortedText, CreativeMandala, ImagePattern } from "@/components/DecorativeElements";
-
-const artPieces = [
-  {
-    id: 1,
-    title: "Big 👁️ small eye",
-    image: "/arts/Big 👁️ small eye(Sem 6 canvas).jpg",
-    rotate: -2,
-  },
-  {
-    id: 2,
-    title: "Philosophy class was fun today",
-    image: "/arts/Philosophy class was fun today.jpg",
-    rotate: 1.5,
-  },
-  {
-    id: 3,
-    title: "Untitled",
-    image: "/arts/c.jpg",
-    rotate: -0.8,
-  },
-  {
-    id: 4,
-    title: "Untitled",
-    image: "/arts/d.jpg",
-    rotate: 2,
-  },
-  {
-    id: 5,
-    title: "Untitled",
-    image: "/arts/e.jpg",
-    rotate: -1.5,
-  }
-];
+import { useArtPieces } from "@/hooks/useSanityData";
+import { urlFor } from "@/lib/sanity";
 
 const Art = () => {
+  const { data: artPieces, isLoading } = useArtPieces();
+
   return (
     <PageTransition>
       <section className="relative pt-24 pb-12 px-6 md:px-12 overflow-hidden">
@@ -91,15 +62,18 @@ const Art = () => {
         <ScatteredDots count={20} />
 
         <div className="columns-2 md:columns-3 lg:columns-4 gap-3 md:gap-4">
-          {artPieces.map((piece, i) => (
+          {isLoading && <div className="text-center w-full col-span-full py-12 text-primary font-cinzel">Loading gallery...</div>}
+          {artPieces?.map((piece: any, i: number) => {
+            const rotate = (i % 2 === 0 ? -1 : 1) * ((i % 3) + 1.5);
+            return (
             <motion.div
-              key={piece.id}
+              key={piece._id}
               className="group relative break-inside-avoid mb-6 md:mb-8 overflow-hidden bg-muted/10 warp-slight"
               style={{
-                rotate: `${piece.rotate}deg`,
+                rotate: `${rotate}deg`,
               }}
-              initial={{ opacity: 0, y: 40, scale: 0.9, rotate: piece.rotate * 3 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1, rotate: piece.rotate }}
+              initial={{ opacity: 0, y: 40, scale: 0.9, rotate: rotate * 3 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1, rotate: rotate }}
               transition={{ delay: i * 0.04, duration: 0.6, ease: "easeOut" }}
               viewport={{ once: true }}
               whileHover={{
@@ -113,7 +87,7 @@ const Art = () => {
               <div className="absolute inset-0 border border-border/10 group-hover:border-primary/30 transition-colors duration-500 z-20" />
 
               <img 
-                src={piece.image} 
+                src={urlFor(piece.image).width(800).url()} 
                 alt={piece.title} 
                 className="w-full h-auto block grayscale-[30%] opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
                 loading="lazy" 
@@ -134,7 +108,8 @@ const Art = () => {
               <div className="absolute top-1 left-1 w-4 h-4 border-t border-l border-primary/0 group-hover:border-primary/30 transition-colors duration-500 z-20" />
               <div className="absolute bottom-1 right-1 w-4 h-4 border-b border-r border-primary/0 group-hover:border-primary/30 transition-colors duration-500 z-20" />
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Bottom decoration */}

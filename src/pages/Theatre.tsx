@@ -3,20 +3,19 @@ import { useEffect, useRef, useState } from "react";
 import PageTransition from "@/components/PageTransition";
 import { MandalaPattern, FloatingDecoElement, DottedCircle, ScatteredDots, RangoliCorner, DiagonalLine, DistortedText, CreativeMandala, ImagePattern } from "@/components/DecorativeElements";
 import { X, Play } from "lucide-react";
-
-const theatreProjects = [
-  { title: "Embers", role: "Director", accent: "text-burnt-orange", driveVideo: "https://drive.google.com/file/d/1P8iGzT43QV76C4qLZYAr9ZDvwFz3_PWL/preview" },
-  { title: "Kumbh ka Mela", role: "Set Designer", accent: "text-primary" },
-  { title: "Devdas", role: "Set Designer", accent: "text-secondary" },
-  { title: "Bombay Dying", role: "Set Designer", accent: "text-accent" },
-  { title: "Atyachaar", role: "Acting", accent: "text-maroon", driveVideo: "https://drive.google.com/file/d/1eDuc91xsWJnSATfC5e7zVILl0p6ZCaa4/preview" },
-  { title: "Two Lives", role: "Set Designer", accent: "text-gold", embedId: "X9GuxD2dnz0" },
-  { title: "Maiyya", role: "Set Designer", accent: "text-burnt-orange" },
-];
+import { useTheatrePlays } from "@/hooks/useSanityData";
 
 const Theatre = () => {
+  const { data: theatreProjects, isLoading } = useTheatrePlays();
   const spotlightRef = useRef<HTMLDivElement>(null);
   const [lightbox, setLightbox] = useState<{ type: 'youtube' | 'drive', src: string } | null>(null);
+
+  // Helper to extract YouTube video ID from URL
+  const getYoutubeId = (url: string) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url?.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  };
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
@@ -114,10 +113,15 @@ const Theatre = () => {
       {/* Projects - More dramatic layout */}
       <section className="px-6 md:px-12 lg:px-24 pb-32 -mt-24 relative z-10">
         <div className="max-w-4xl mx-auto">
-          {theatreProjects.map((project, i) => (
+          {isLoading && <div className="text-center w-full py-12 text-primary font-cinzel">Loading projects...</div>}
+          {theatreProjects?.map((project: any, i: number) => {
+            const embedId = getYoutubeId(project.youtubeLink);
+            const accents = ["text-burnt-orange", "text-primary", "text-secondary", "text-accent", "text-maroon", "text-gold"];
+            const accent = accents[i % accents.length];
+            return (
             <motion.div
-              key={project.title}
-              className={`group relative ${project.embedId || project.driveVideo ? 'cursor-pointer' : ''}`}
+              key={project._id}
+              className={`group relative ${embedId || project.driveVideo ? 'cursor-pointer' : ''}`}
               initial={{ opacity: 0, x: i % 2 === 0 ? -60 : 60, rotate: i % 2 === 0 ? -2 : 2 }}
               whileInView={{ opacity: 1, x: 0, rotate: 0 }}
               transition={{ delay: i * 0.08, duration: 0.7, ease: "easeOut" }}
@@ -127,7 +131,7 @@ const Theatre = () => {
                 marginRight: i % 3 === 0 ? "8%" : i % 3 === 1 ? "0" : "12%",
               }}
               onClick={() => {
-                if (project.embedId) setLightbox({ type: 'youtube', src: project.embedId });
+                if (embedId) setLightbox({ type: 'youtube', src: embedId });
                 else if (project.driveVideo) setLightbox({ type: 'drive', src: project.driveVideo });
               }}
             >
@@ -142,7 +146,7 @@ const Theatre = () => {
                     <h2 className="font-cinzel text-xl md:text-3xl lg:text-4xl font-bold group-hover:text-primary transition-colors duration-500 chromatic-text truncate">
                       {project.title}
                     </h2>
-                    {(project.embedId || project.driveVideo) && (
+                    {(embedId || project.driveVideo) && (
                       <div className="flex items-center gap-1.5 px-3 py-1 rounded-sm border border-primary/20 bg-primary/5 group-hover:bg-primary/10 group-hover:border-primary/50 transition-all duration-300 shrink-0 backdrop-blur-sm shadow-[0_0_10px_rgba(255,215,0,0.02)] group-hover:shadow-[0_0_15px_rgba(255,215,0,0.1)]">
                         <Play size={10} className="text-primary/60 group-hover:text-primary transition-colors fill-primary/10 group-hover:fill-primary/40" />
                         <span className="font-grotesk text-[9px] tracking-[0.2em] uppercase text-primary/60 group-hover:text-primary transition-colors mt-px">Watch</span>
@@ -157,7 +161,7 @@ const Theatre = () => {
                     {project.role}
                   </p>
                   <motion.div
-                    className={`w-2 h-2 rounded-full ${project.accent} opacity-0 group-hover:opacity-60`}
+                    className={`w-2 h-2 rounded-full ${accent} opacity-0 group-hover:opacity-60`}
                     style={{ backgroundColor: "currentColor" }}
                     whileHover={{ scale: 2 }}
                     transition={{ duration: 0.3 }}
@@ -170,7 +174,8 @@ const Theatre = () => {
                 <DottedCircle size={50} className="text-primary" />
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Bottom decoration */}

@@ -2,14 +2,11 @@ import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import { MandalaPattern, FloatingDecoElement, PaisleyPattern, ScatteredDots, DiagonalLine, DottedCircle, RangoliCorner, DistortedText, ParallaxLayer, CreativeMandala, ImagePattern } from "@/components/DecorativeElements";
 import { ExternalLink } from "lucide-react";
-
-const articles = [
-  { title: "A Third Space", excerpt: "On the liminal spaces between identities, cultures, and art forms — where creation happens in the in-between.", link: "https://substack.com/@ruhigh/note/p-192065027?r=6vuc5k&utm_source=notes-share-action&utm_medium=web" },
-  { title: "Doorway", excerpt: "What stands at the threshold of memory and forgetting — a meditation on passage and permanence.", link: "https://substack.com/@ruhigh/note/p-190555196?r=6vuc5k&utm_source=notes-share-action&utm_medium=web" },
-  { title: "My Name", excerpt: "An exploration of names, naming, and the weight they carry across languages and lives.", link: "https://substack.com/@ruhigh/note/p-190554784?r=6vuc5k&utm_source=notes-share-action&utm_medium=web" },
-];
+import { Link } from "react-router-dom";
+import { useWritings } from "@/hooks/useSanityData";
 
 const Writing = () => {
+  const { data: articles, isLoading } = useWritings();
   return (
     <PageTransition>
       <section className="relative pt-24 pb-12 px-6 md:px-12 lg:px-24 overflow-hidden">
@@ -80,12 +77,19 @@ const Writing = () => {
         <div className="fixed top-0 right-0 w-1/3 h-full bg-gradient-to-l from-card/15 to-transparent pointer-events-none z-0" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10 max-w-7xl mx-auto">
-          {articles.map((article, i) => (
-            <motion.a
-              href={article.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={article.title}
+          {isLoading && <div className="text-center w-full col-span-full py-12 text-primary font-cinzel">Loading writings...</div>}
+          {articles?.map((article: any, i: number) => {
+            const isExternal = article.entryType === 'external';
+            const linkHref = isExternal ? article.externalLink : `/writing/${article.slug?.current}`;
+            const Wrapper = isExternal ? motion.a : motion(Link);
+
+            return (
+            <Wrapper
+              href={isExternal ? linkHref : undefined}
+              to={!isExternal ? linkHref : undefined}
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+              key={article._id}
               className="group relative bg-card/50 backdrop-blur-md border-2 border-primary/20 p-8 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(255,215,0,0.1)] transition-all duration-500 overflow-hidden warp-slight block cursor-pointer"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -105,7 +109,7 @@ const Writing = () => {
                 <div className="absolute left-[-5px] top-0 w-2 h-2 rounded-full bg-border/30 group-hover:bg-primary/60 transition-colors duration-500" />
 
                 <span className="font-grotesk text-[10px] text-muted-foreground/30 tracking-[0.4em] uppercase block mb-3">
-                  {["essay", "prose", "personal"][i]}
+                  {article.category || "essay"}
                 </span>
 
                 <h2 className="font-cinzel text-3xl md:text-4xl font-bold group-hover:text-primary transition-colors duration-500 chromatic-text mb-4">
@@ -126,8 +130,9 @@ const Writing = () => {
               <div className="absolute -right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
                 <DottedCircle size={40} className="text-primary" />
               </div>
-            </motion.a>
-          ))}
+            </Wrapper>
+            );
+          })}
         </div>
 
         {/* Bottom ornament */}

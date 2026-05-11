@@ -13,6 +13,7 @@ import Film from "./pages/Film.tsx";
 import Theatre from "./pages/Theatre.tsx";
 import Art from "./pages/Art.tsx";
 import Writing from "./pages/Writing.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const AnimatedRoutes = () => {
         <Route path="/theatre" element={<Theatre />} />
         <Route path="/art" element={<Art />} />
         <Route path="/writing" element={<Writing />} />
+        <Route path="/writing/:slug" element={<BlogPost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>

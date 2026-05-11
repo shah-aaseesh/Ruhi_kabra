@@ -7,6 +7,7 @@ import {
   DistortedText, ParallaxLayer, DiagonalLine, DottedCircle, ScatteredDots, CreativeMandala, ImagePattern
 } from "@/components/DecorativeElements";
 import { Film, Theater, Palette, PenTool } from "lucide-react";
+import { useGlobalSettings } from "@/hooks/useSanityData";
 
 const heroLetters = "RUHI KABRA".split("");
 
@@ -27,6 +28,12 @@ const featuredFilms = [
 const marqueeText = "FILMMAKER • ARTIST • WRITER • STORYTELLER • CREATOR • DREAMER • ";
 
 const Index = () => {
+  const { data: globalSettings } = useGlobalSettings();
+  const aboutMeText = globalSettings?.aboutMe || "Hello! I’m Ruhi Kabra. I love doing anything creative and adventurous. I express myself by creating all kinds of art and I am a yapper when I feel. I’ve been drawing ever since I could remember and have recently expanded my artistic pursuits into film and writing. I’m finishing up my undergrad at Ashoka University as a psych major and media studies minor. I also completed a summer course at Prague film school last year after which I travelled solo around Europe for a few weeks. Here is a bunch of my recent work. I hope you enjoy going through it as much as I did creating them and hopefully I can be of some help to you!";
+  const locationText = globalSettings?.location || "Pune, Maharashtra";
+  const universityText = globalSettings?.university || "Ashoka University";
+  const marqueeTextDynamic = globalSettings?.marqueeText || marqueeText;
+
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
@@ -121,7 +128,7 @@ const Index = () => {
           >
             <div className="animate-marquee whitespace-nowrap">
               <span className="font-cormorant text-lg md:text-xl text-muted-foreground/60 tracking-[0.3em] italic">
-                {marqueeText.repeat(4)}
+                {marqueeTextDynamic.repeat(4)}
               </span>
             </div>
           </motion.div>
@@ -218,8 +225,8 @@ const Index = () => {
             {/* Corner fold */}
             <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-bl from-muted/50 to-transparent" />
 
-            <p className="font-cormorant text-lg md:text-xl leading-relaxed text-foreground/85 italic relative z-10">
-              "Hello! I’m <DistortedText className="font-semibold not-italic">Ruhi Kabra</DistortedText>. I love doing anything creative and adventurous. I express myself by creating all kinds of art and I am a yapper when I feel. I’ve been drawing ever since I could remember and have recently expanded my artistic pursuits into film and writing. I’m finishing up my undergrad at Ashoka University as a psych major and media studies minor. I also completed a summer course at Prague film school last year after which I travelled solo around Europe for a few weeks. Here is a bunch of my recent work. I hope you enjoy going through it as much as I did creating them and hopefully I can be of some help to you!"
+            <p className="font-cormorant text-lg md:text-xl leading-relaxed text-foreground/85 italic relative z-10 whitespace-pre-wrap">
+              "{aboutMeText}"
             </p>
             <div className="mt-6 flex items-center gap-3 relative z-10">
               <div className="w-16 h-px bg-primary/30" />
@@ -251,11 +258,11 @@ const Index = () => {
           >
             <div className="flex flex-col items-center md:items-start">
               <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Based in</p>
-              <p className="font-cormorant text-sm italic text-muted-foreground/40">Pune, Maharashtra</p>
+              <p className="font-cormorant text-sm italic text-muted-foreground/40">{locationText}</p>
             </div>
             <div className="hidden md:block w-px h-8 bg-border/20 ml-4" />
             <div className="md:hidden w-8 h-px bg-border/20" />
-            <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 mt-2 md:mt-0">Ashoka University</p>
+            <p className="font-grotesk text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 mt-2 md:mt-0">{universityText}</p>
           </motion.div>
         </div>
       </section>

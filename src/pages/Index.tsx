@@ -7,7 +7,7 @@ import {
   DistortedText, ParallaxLayer, DiagonalLine, DottedCircle, ScatteredDots, CreativeMandala, ImagePattern
 } from "@/components/DecorativeElements";
 import { Film, Theater, Palette, PenTool } from "lucide-react";
-import { useGlobalSettings, useFeaturedFilms } from "@/hooks/useSanityData";
+import { useGlobalSettings, useHomepageSettings, useFeaturedFilms } from "@/hooks/useSanityData";
 import { urlFor } from "@/lib/sanity";
 
 const heroLetters = "RUHI KABRA".split("");
@@ -32,12 +32,13 @@ const marqueeText = "FILMMAKER • ARTIST • WRITER • STORYTELLER • CREATOR
 
 const Index = () => {
   const { data: globalSettings } = useGlobalSettings();
+  const { data: homepageSettings } = useHomepageSettings();
   const { data: featuredFilmsData } = useFeaturedFilms();
   
-  const aboutMeText = globalSettings?.aboutMe || "Hello! I’m Ruhi Kabra. I love doing anything creative and adventurous. I express myself by creating all kinds of art and I am a yapper when I feel. I’ve been drawing ever since I could remember and have recently expanded my artistic pursuits into film and writing. I’m finishing up my undergrad at Ashoka University as a psych major and media studies minor. I also completed a summer course at Prague film school last year after which I travelled solo around Europe for a few weeks. Here is a bunch of my recent work. I hope you enjoy going through it as much as I did creating them and hopefully I can be of some help to you!";
-  const locationText = globalSettings?.location || "Pune, Maharashtra";
-  const universityText = globalSettings?.university || "Ashoka University";
-  const marqueeTextDynamic = globalSettings?.marqueeText || marqueeText;
+  const aboutMeText = homepageSettings?.aboutMe || globalSettings?.aboutMe || "Hello! I’m Ruhi Kabra. I love doing anything creative and adventurous. I express myself by creating all kinds of art and I am a yapper when I feel. I’ve been drawing ever since I could remember and have recently expanded my artistic pursuits into film and writing. I’m finishing up my undergrad at Ashoka University as a psych major and media studies minor. I also completed a summer course at Prague film school last year after which I travelled solo around Europe for a few weeks. Here is a bunch of my recent work. I hope you enjoy going through it as much as I did creating them and hopefully I can be of some help to you!";
+  const locationText = homepageSettings?.location || globalSettings?.location || "Pune, Maharashtra";
+  const universityText = homepageSettings?.university || globalSettings?.university || "Ashoka University";
+  const marqueeTextDynamic = homepageSettings?.marqueeText || globalSettings?.marqueeText || marqueeText;
   
   const featuredFilms = featuredFilmsData && featuredFilmsData.length > 0 
     ? featuredFilmsData.map((film: any, index: number) => ({

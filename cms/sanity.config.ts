@@ -25,6 +25,14 @@ export default defineConfig({
                   .schemaType('globalSettings')
                   .documentId('globalSettings')
               ),
+            S.listItem()
+              .title('Homepage Settings')
+              .id('homepage')
+              .child(
+                S.document()
+                  .schemaType('homepage')
+                  .documentId('homepage')
+              ),
             S.divider(),
             orderableDocumentListDeskItem({type: 'artPiece', title: 'Art Pieces', S, context}),
             orderableDocumentListDeskItem({type: 'writingPiece', title: 'Writing Pieces', S, context}),

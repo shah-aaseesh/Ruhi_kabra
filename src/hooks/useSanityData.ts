@@ -11,6 +11,16 @@ export function useGlobalSettings() {
   })
 }
 
+export function useHomepageSettings() {
+  return useQuery({
+    queryKey: ['homepage'],
+    queryFn: async () => {
+      const data = await sanityClient.fetch(`*[_type == "homepage"][0]`)
+      return data || {}
+    }
+  })
+}
+
 export function useArtPieces() {
   return useQuery({
     queryKey: ['artPieces'],

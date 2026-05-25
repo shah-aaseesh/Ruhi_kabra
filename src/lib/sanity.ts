@@ -9,7 +9,7 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Use CDN for faster, cached responses
+  useCdn: !import.meta.env.DEV, // Bypass CDN in development for instant updates
 })
 
 const builder = imageUrlBuilder(sanityClient)

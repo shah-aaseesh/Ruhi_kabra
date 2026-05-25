@@ -259,7 +259,11 @@ const Index = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            <img src="/Photos/image2.png" alt="Ruhi Kabra" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+            <img 
+              src={homepageSettings?.aboutImage ? urlFor(homepageSettings.aboutImage).width(600).url() : "/Photos/image2.png"} 
+              alt="Ruhi Kabra" 
+              className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" 
+            />
             <div className="absolute bottom-3 left-0 right-0 text-center font-cormorant italic text-sm text-foreground/40"></div>
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-5 bg-secondary/30 rotate-2 blur-[1px]" />
           </motion.div>
@@ -369,7 +373,11 @@ const Index = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <img src="/Photos/image3.png" alt="Ruhi Kabra" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+          <img 
+            src={homepageSettings?.exploreImage ? urlFor(homepageSettings.exploreImage).width(600).url() : "/Photos/image3.png"} 
+            alt="Ruhi Kabra" 
+            className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" 
+          />
           <div className="absolute bottom-3 left-0 right-0 text-center font-cormorant italic text-sm text-muted-foreground/60"></div>
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-4 bg-primary/20 -rotate-3 blur-[1px]" />
         </motion.div>
